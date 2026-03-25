@@ -1,0 +1,13 @@
+from __future__ import annotations
+"""Transcript Repository Port — defines the contract for transcript persistence."""
+
+from typing import Protocol
+
+from staff_echo.domain.entities.transcript import Transcript
+
+
+class TranscriptRepositoryPort(Protocol):
+    async def save(self, transcript: Transcript) -> None: ...
+    async def get_by_id(self, transcript_id: str) -> Transcript | None: ...
+    async def get_pending(self) -> list[Transcript]: ...
+    async def get_approved(self) -> list[Transcript]: ...

@@ -1,0 +1,25 @@
+{
+  "mcpServers": {
+    "staff-echo-chat": {
+      "command": "python",
+      "args": ["-m", "staff_echo.infrastructure.mcp_servers.chat_server"],
+      "env": {
+        "STAFF_ECHO_GEMINI_API_KEY": "${GEMINI_API_KEY}"
+      }
+    },
+    "staff-echo-knowledge": {
+      "command": "python",
+      "args": ["-m", "staff_echo.infrastructure.mcp_servers.knowledge_server"],
+      "env": {
+        "STAFF_ECHO_BIGQUERY_PROJECT": "${BIGQUERY_PROJECT}"
+      }
+    },
+    "staff-echo-transcript": {
+      "command": "python",
+      "args": ["-m", "staff_echo.infrastructure.mcp_servers.transcript_server"],
+      "env": {
+        "STAFF_ECHO_BIGQUERY_PROJECT": "${BIGQUERY_PROJECT}"
+      }
+    }
+  }
+}
