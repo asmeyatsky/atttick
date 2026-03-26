@@ -48,22 +48,17 @@ class PricingValidationService:
                 reason="Response mentions pricing but no verified pricing data available",
             )
 
+        min_known = min(known_amounts)
+
         for price_str in mentioned_prices:
             amount = float(price_str.replace("$", "").replace(",", ""))
-            if amount not in known_amounts:
-                lower_than_source = any(amount < k for k in known_amounts)
-                if lower_than_source:
-                    return PricingValidationResult(
-                        is_valid=False,
-                        requires_handoff=True,
-                        reason=f"Quoted price ${amount:.2f} is lower than source data",
-                    )
+            if amount < min_known:
                 return PricingValidationResult(
                     is_valid=False,
                     requires_handoff=True,
-                    reason=f"Price ${amount:.2f} not found in verified pricing data",
+                    reason=f"Quoted price ${amount:.2f} is lower than verified minimum ${min_known:.2f}",
                 )
 
         return PricingValidationResult(
-            is_valid=True, requires_handoff=False, reason="All prices verified"
+            is_valid=True, requires_handoff=False, reason="All prices within verified range"
         )

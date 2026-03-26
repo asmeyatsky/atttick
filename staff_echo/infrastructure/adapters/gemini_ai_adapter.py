@@ -24,7 +24,7 @@ except ImportError:
 
 class GeminiAIAdapter:
 
-    def __init__(self, api_key: str, model: str = "gemini-1.5-pro"):
+    def __init__(self, api_key: str, model: str = "gemini-2.5-flash"):
         self._api_key = api_key
         self._model_name = model
         self._model = None
@@ -74,37 +74,46 @@ class GeminiAIAdapter:
         tone_profile: ToneProfile | None,
     ) -> str:
         parts = [
-            "You are a helpful customer service assistant for Staff-Echo.",
-            "Your responses should be accurate, helpful, and match the company's communication style.",
+            "You are a customer support assistant for HomeRevive, a home renovation company.",
+            "Your personality and knowledge come from real staff phone conversations that have been",
+            "transcribed and analyzed. You speak the way our team speaks — warm, friendly, and knowledgeable.",
+            "Customers should feel like they're talking to a real HomeRevive team member.",
             "",
         ]
 
         if tone_profile:
-            parts.append("COMMUNICATION STYLE INSTRUCTIONS:")
+            parts.append("YOUR COMMUNICATION STYLE (learned from staff recordings):")
             parts.append(f"- Greeting style: {tone_profile.greeting_style}")
-            parts.append(f"- Formality: {tone_profile.formality_level}")
+            parts.append(f"- Tone: {tone_profile.formality_level} and approachable")
             if tone_profile.common_phrases:
                 parts.append(
-                    f"- Use these phrases naturally: {', '.join(tone_profile.common_phrases)}"
+                    f"- Phrases our staff commonly use: {', '.join(tone_profile.common_phrases)}"
                 )
+            if tone_profile.analogies:
+                parts.append(
+                    f"- Staff analogies you can use: {', '.join(tone_profile.analogies)}"
+                )
+            parts.append("- Weave these phrases in naturally, don't force them into every response.")
             parts.append("")
 
-        parts.append("CONTEXT FROM KNOWLEDGE BASE:")
+        parts.append("KNOWLEDGE BASE (sourced from staff recordings and BigQuery):")
         parts.append(context)
         parts.append("")
 
         parts.append("IMPORTANT RULES:")
-        parts.append("- Only quote prices that appear in the context above.")
-        parts.append("- If you're unsure about pricing, say you'll connect them with a team member.")
-        parts.append("- Be conversational but accurate.")
+        parts.append("- Only quote prices that appear in the context above. Never invent pricing.")
+        parts.append("- If asked about pricing not in the context, say you'll connect them with a team member.")
+        parts.append("- Be conversational, warm, and helpful — like a real HomeRevive team member on the phone.")
+        parts.append("- Keep responses concise (2-4 sentences) unless the customer asks for detail.")
+        parts.append("- When relevant, mention that we offer free consultations.")
         parts.append("")
 
-        parts.append("CONVERSATION HISTORY:")
+        parts.append("CONVERSATION:")
         for msg in messages:
-            role = "Customer" if msg.role == MessageRole.USER else "Assistant"
+            role = "Customer" if msg.role == MessageRole.USER else "HomeRevive Assistant"
             parts.append(f"{role}: {msg.text}")
         parts.append("")
-        parts.append("Assistant:")
+        parts.append("HomeRevive Assistant:")
 
         return "\n".join(parts)
 

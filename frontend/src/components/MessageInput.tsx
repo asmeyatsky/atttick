@@ -6,14 +6,9 @@ import styles from "@/styles/chat.module.css";
 interface MessageInputProps {
   onSend: (message: string) => void;
   disabled: boolean;
-  placeholder?: string;
 }
 
-export function MessageInput({
-  onSend,
-  disabled,
-  placeholder = "Ask me anything...",
-}: MessageInputProps) {
+export function MessageInput({ onSend, disabled }: MessageInputProps) {
   const [text, setText] = useState("");
 
   const handleSubmit = useCallback(() => {
@@ -37,7 +32,9 @@ export function MessageInput({
         value={text}
         onChange={(e) => setText(e.target.value)}
         onKeyDown={handleKeyDown}
-        placeholder={disabled ? "Conversation handed off..." : placeholder}
+        placeholder={
+          disabled ? "Waiting for response..." : "Type your message..."
+        }
         disabled={disabled}
         rows={1}
       />
@@ -47,7 +44,16 @@ export function MessageInput({
         disabled={disabled || !text.trim()}
         aria-label="Send message"
       >
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <svg
+          width="20"
+          height="20"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+        >
           <path d="M22 2L11 13" />
           <path d="M22 2L15 22L11 13L2 9L22 2Z" />
         </svg>

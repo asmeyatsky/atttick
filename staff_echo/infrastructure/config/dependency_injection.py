@@ -11,8 +11,10 @@ Architectural Intent:
 from staff_echo.domain.services.pii_masking_service import PIIMaskingService
 from staff_echo.domain.services.tone_alignment_service import ToneAlignmentService
 from staff_echo.domain.services.pricing_validation_service import PricingValidationService
+from staff_echo.domain.value_objects.tone_profile import ToneProfile
 
 from staff_echo.infrastructure.config.settings import Settings
+from staff_echo.infrastructure.seed_data import DEFAULT_TONE_PROFILE
 from staff_echo.infrastructure.repositories.in_memory_conversation_repo import InMemoryConversationRepository
 from staff_echo.infrastructure.repositories.in_memory_transcript_repo import InMemoryTranscriptRepository
 from staff_echo.infrastructure.repositories.in_memory_knowledge_repo import InMemoryKnowledgeRepository
@@ -38,6 +40,7 @@ class Container:
     def __init__(self, settings: Settings):
         self.settings = settings
         self._instances: dict[type, object] = {}
+        self.default_tone_profile: ToneProfile = DEFAULT_TONE_PROFILE
 
     def _get_or_create(self, cls: type, factory):
         if cls not in self._instances:
@@ -123,6 +126,7 @@ class Container:
                 event_bus=self.event_bus,
                 tone_service=self.tone_alignment_service,
                 pricing_service=self.pricing_validation_service,
+                default_tone_profile=self.default_tone_profile,
             ),
         )
 

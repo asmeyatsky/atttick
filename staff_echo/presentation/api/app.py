@@ -14,6 +14,7 @@ from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
 from staff_echo.infrastructure.config.dependency_injection import Container
+from staff_echo.infrastructure.seed_data import seed_knowledge_base
 from staff_echo.presentation.api.chat_controller import chat_router
 from staff_echo.presentation.api.transcript_controller import transcript_router
 from staff_echo.presentation.api.knowledge_controller import knowledge_router
@@ -21,6 +22,7 @@ from staff_echo.presentation.api.knowledge_controller import knowledge_router
 
 @asynccontextmanager
 async def lifespan(app: FastAPI):
+    await seed_knowledge_base(app.state.container.knowledge_repo)
     yield
 
 

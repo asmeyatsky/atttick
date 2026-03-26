@@ -21,6 +21,7 @@ from staff_echo.domain.ports.cache_port import CachePort
 from staff_echo.domain.ports.event_bus_port import EventBusPort
 from staff_echo.domain.services.tone_alignment_service import ToneAlignmentService
 from staff_echo.domain.services.pricing_validation_service import PricingValidationService
+from staff_echo.domain.value_objects.tone_profile import ToneProfile
 from staff_echo.application.dtos.chat_dto import SendMessageRequest, SendMessageResponse
 from staff_echo.application.orchestration.chat_response_workflow import ChatResponseWorkflow
 
@@ -36,10 +37,12 @@ class SendMessageUseCase:
         event_bus: EventBusPort,
         tone_service: ToneAlignmentService,
         pricing_service: PricingValidationService,
+        default_tone_profile: ToneProfile | None = None,
     ):
         self._conversation_repo = conversation_repo
         self._knowledge_repo = knowledge_repo
         self._event_bus = event_bus
+        self._default_tone_profile = default_tone_profile
         self._workflow = ChatResponseWorkflow(
             knowledge_repo=knowledge_repo,
             ai_provider=ai_provider,
@@ -117,4 +120,5 @@ class SendMessageUseCase:
         return Conversation(
             id=request.conversation_id or str(uuid.uuid4()),
             customer_id=request.customer_id,
+            tone_profile=self._default_tone_profile,
         )
