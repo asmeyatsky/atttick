@@ -28,7 +28,7 @@ export function ChatWidget() {
             </svg>
           </div>
           <div>
-            <div className={styles.headerTitle}>HomeRevive Assistant</div>
+            <div className={styles.headerTitle}>Attraction Tickets Assistant</div>
             <div className={styles.headerStatus}>
               <span className={styles.statusDot} />
               Online

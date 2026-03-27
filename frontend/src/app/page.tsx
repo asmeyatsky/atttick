@@ -6,22 +6,12 @@ export default function Home() {
     <div className={styles.page}>
       <header className={styles.pageHeader}>
         <div className={styles.logo}>
-          <div className={styles.logoIcon}>
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            >
-              <path d="M12 2a3 3 0 0 0-3 3v7a3 3 0 0 0 6 0V5a3 3 0 0 0-3-3Z" />
-              <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
-              <line x1="12" x2="12" y1="19" y2="22" />
-            </svg>
-          </div>
+          <img
+            src="/attraction-tickets-logo.svg"
+            alt="AttractionTickets.com"
+            height="32"
+          />
+          <span className={styles.logoDivider}>×</span>
           <span>Staff Echo</span>
         </div>
         <p className={styles.tagline}>
@@ -98,19 +88,19 @@ export default function Home() {
             </h3>
             <div className={styles.statGrid}>
               <div className={styles.stat}>
-                <span className={styles.statValue}>847</span>
+                <span className={styles.statValue}>1,243</span>
                 <span className={styles.statLabel}>Voice Recordings</span>
               </div>
               <div className={styles.stat}>
-                <span className={styles.statValue}>12,450</span>
+                <span className={styles.statValue}>18,700</span>
                 <span className={styles.statLabel}>Transcribed Segments</span>
               </div>
               <div className={styles.stat}>
-                <span className={styles.statValue}>156</span>
+                <span className={styles.statValue}>312</span>
                 <span className={styles.statLabel}>Knowledge Entries</span>
               </div>
               <div className={styles.stat}>
-                <span className={styles.statValue}>23</span>
+                <span className={styles.statValue}>89</span>
                 <span className={styles.statLabel}>Pricing Records</span>
               </div>
             </div>
@@ -128,22 +118,22 @@ export default function Home() {
             <div className={styles.profileList}>
               <div className={styles.profileRow}>
                 <span className={styles.profileLabel}>Tone</span>
-                <span className={styles.profileBadge}>Casual &amp; Friendly</span>
+                <span className={styles.profileBadge}>Friendly &amp; Helpful</span>
               </div>
               <div className={styles.profileRow}>
                 <span className={styles.profileLabel}>Greeting</span>
-                <span className={styles.profileValue}>&ldquo;Hey there!&rdquo;</span>
+                <span className={styles.profileValue}>&ldquo;Hi there!&rdquo;</span>
               </div>
               <div className={styles.profileRow}>
                 <span className={styles.profileLabel}>Staff Sources</span>
-                <span className={styles.profileValue}>Sarah J., Mike C.</span>
+                <span className={styles.profileValue}>Emma W., James T.</span>
               </div>
             </div>
             <div className={styles.tagList}>
-              <span className={styles.tag}>absolutely</span>
-              <span className={styles.tag}>happy to help</span>
-              <span className={styles.tag}>great question</span>
-              <span className={styles.tag}>we&apos;ve got you covered</span>
+              <span className={styles.tag}>brilliant</span>
+              <span className={styles.tag}>no worries</span>
+              <span className={styles.tag}>sorted for you</span>
+              <span className={styles.tag}>you&apos;re all set</span>
             </div>
           </div>
 
@@ -158,14 +148,14 @@ export default function Home() {
               <div className={styles.activityItem}>
                 <div className={styles.activityDot} />
                 <div>
-                  <div className={styles.activityText}>5 new recordings processed</div>
+                  <div className={styles.activityText}>8 new recordings processed</div>
                   <div className={styles.activityTime}>2 hours ago</div>
                 </div>
               </div>
               <div className={styles.activityItem}>
                 <div className={styles.activityDot} />
                 <div>
-                  <div className={styles.activityText}>Pricing data synced from BigQuery</div>
+                  <div className={styles.activityText}>Ticket pricing synced from BigQuery</div>
                   <div className={styles.activityTime}>6 hours ago</div>
                 </div>
               </div>
@@ -196,37 +186,37 @@ export default function Home() {
               <div className={styles.metric}>
                 <div className={styles.metricHeader}>
                   <span>Accuracy</span>
-                  <span className={styles.metricValue}>98.2%</span>
+                  <span className={styles.metricValue}>97.8%</span>
                 </div>
                 <div className={styles.metricBar}>
-                  <div className={styles.metricFill} style={{ width: "98.2%" }} />
+                  <div className={styles.metricFill} style={{ width: "97.8%" }} />
                 </div>
               </div>
               <div className={styles.metric}>
                 <div className={styles.metricHeader}>
                   <span>Tone Match</span>
-                  <span className={styles.metricValue}>94.7%</span>
+                  <span className={styles.metricValue}>95.1%</span>
                 </div>
                 <div className={styles.metricBar}>
-                  <div className={styles.metricFill} style={{ width: "94.7%" }} />
+                  <div className={styles.metricFill} style={{ width: "95.1%" }} />
                 </div>
               </div>
               <div className={styles.metric}>
                 <div className={styles.metricHeader}>
                   <span>Verified Responses</span>
-                  <span className={styles.metricValue}>91.3%</span>
+                  <span className={styles.metricValue}>92.6%</span>
                 </div>
                 <div className={styles.metricBar}>
-                  <div className={styles.metricFill} style={{ width: "91.3%" }} />
+                  <div className={styles.metricFill} style={{ width: "92.6%" }} />
                 </div>
               </div>
               <div className={styles.metric}>
                 <div className={styles.metricHeader}>
                   <span>Human Handoffs</span>
-                  <span className={styles.metricValueSmall}>3.1%</span>
+                  <span className={styles.metricValueSmall}>2.4%</span>
                 </div>
                 <div className={styles.metricBar}>
-                  <div className={styles.metricFillWarn} style={{ width: "3.1%" }} />
+                  <div className={styles.metricFillWarn} style={{ width: "2.4%" }} />
                 </div>
               </div>
             </div>
@@ -244,17 +234,17 @@ export default function Home() {
             <div className={styles.coverageList}>
               <div className={styles.coverageItem}>
                 <div className={styles.coverageHeader}>
-                  <span>Product Specs</span>
-                  <span>42 entries</span>
+                  <span>Ticket Products</span>
+                  <span>89 entries</span>
                 </div>
                 <div className={styles.metricBar}>
-                  <div className={styles.metricFill} style={{ width: "85%" }} />
+                  <div className={styles.metricFill} style={{ width: "92%" }} />
                 </div>
               </div>
               <div className={styles.coverageItem}>
                 <div className={styles.coverageHeader}>
                   <span>Pricing</span>
-                  <span>23 entries</span>
+                  <span>67 entries</span>
                 </div>
                 <div className={styles.metricBar}>
                   <div className={styles.metricFillSuccess} style={{ width: "100%" }} />
@@ -263,19 +253,19 @@ export default function Home() {
               <div className={styles.coverageItem}>
                 <div className={styles.coverageHeader}>
                   <span>FAQs</span>
-                  <span>67 entries</span>
+                  <span>104 entries</span>
                 </div>
                 <div className={styles.metricBar}>
-                  <div className={styles.metricFill} style={{ width: "72%" }} />
+                  <div className={styles.metricFill} style={{ width: "85%" }} />
                 </div>
               </div>
               <div className={styles.coverageItem}>
                 <div className={styles.coverageHeader}>
                   <span>General</span>
-                  <span>24 entries</span>
+                  <span>52 entries</span>
                 </div>
                 <div className={styles.metricBar}>
-                  <div className={styles.metricFill} style={{ width: "60%" }} />
+                  <div className={styles.metricFill} style={{ width: "68%" }} />
                 </div>
               </div>
             </div>
@@ -297,7 +287,7 @@ export default function Home() {
                   <line x1="8" y1="2" x2="8" y2="6" />
                   <line x1="3" y1="10" x2="21" y2="10" />
                 </svg>
-                <span>Calendar Filters</span>
+                <span>Date-based Availability</span>
               </div>
               <div className={styles.roadmapItem}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -306,7 +296,7 @@ export default function Home() {
                   <line x1="16" y1="13" x2="8" y2="13" />
                   <line x1="16" y1="17" x2="8" y2="17" />
                 </svg>
-                <span>PDF Export</span>
+                <span>Booking Confirmation PDF</span>
               </div>
               <div className={styles.roadmapItem}>
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -322,7 +312,7 @@ export default function Home() {
       </main>
 
       <footer className={styles.pageFooter}>
-        Demo: HomeRevive powered by Staff Echo &mdash; AI trained on real staff
+        Demo: Attraction Tickets powered by Staff Echo &mdash; AI trained on real staff
         conversations
       </footer>
     </div>

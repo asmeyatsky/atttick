@@ -1,0 +1,119 @@
+# Deploy both services to Cloud Run on every push to main.
+#
+# Required GitHub secrets:
+#   GCP_PROJECT_ID          – your Google Cloud project ID
+#   GCP_REGION              – e.g. europe-west1
+#   WIF_PROVIDER            – Workload Identity Federation provider
+#                             (projects/<num>/locations/global/workloadIdentityPools/<pool>/providers/<provider>)
+#   WIF_SERVICE_ACCOUNT     – service account email (sa@project.iam.gserviceaccount.com)
+#
+# Required GCP setup (one-time):
+#   1. Enable Cloud Run API & Artifact Registry API
+#   2. Create Artifact Registry repo:
+#        gcloud artifacts repositories create staff-echo \
+#          --repository-format=docker --location=$GCP_REGION
+#   3. Set up Workload Identity Federation for GitHub Actions:
+#        https://github.com/google-github-actions/auth#workload-identity-federation
+#   4. Grant the service account roles:
+#        - roles/run.admin
+#        - roles/artifactregistry.writer
+#        - roles/iam.serviceAccountUser
+
+name: Deploy to Cloud Run
+
+on:
+  push:
+    branches: [main]
+
+env:
+  REGION: ${{ secrets.GCP_REGION }}
+  PROJECT_ID: ${{ secrets.GCP_PROJECT_ID }}
+  REPO: staff-echo
+  BACKEND_SERVICE: staff-echo-api
+  FRONTEND_SERVICE: staff-echo-web
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      id-token: write
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - id: auth
+        uses: google-github-actions/auth@v2
+        with:
+          workload_identity_provider: ${{ secrets.WIF_PROVIDER }}
+          service_account: ${{ secrets.WIF_SERVICE_ACCOUNT }}
+
+      - uses: google-github-actions/setup-gcloud@v2
+
+      - name: Authenticate Docker to Artifact Registry
+        run: gcloud auth configure-docker ${{ env.REGION }}-docker.pkg.dev --quiet
+
+      # ── Backend ──
+      - name: Build backend image
+        run: |
+          docker build -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO }}/api:${{ github.sha }} \
+            -f Dockerfile .
+
+      - name: Push backend image
+        run: |
+          docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO }}/api:${{ github.sha }}
+
+      - name: Deploy backend to Cloud Run
+        run: |
+          gcloud run deploy ${{ env.BACKEND_SERVICE }} \
+            --image ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO }}/api:${{ github.sha }} \
+            --region ${{ env.REGION }} \
+            --allow-unauthenticated \
+            --port 8001 \
+            --memory 512Mi \
+            --cpu 1 \
+            --min-instances 0 \
+            --max-instances 3
+
+      - name: Get backend URL
+        id: backend-url
+        run: |
+          URL=$(gcloud run services describe ${{ env.BACKEND_SERVICE }} \
+            --region ${{ env.REGION }} \
+            --format='value(status.url)')
+          echo "url=$URL" >> "$GITHUB_OUTPUT"
+
+      # ── Frontend ──
+      - name: Build frontend image
+        run: |
+          docker build -t ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO }}/web:${{ github.sha }} \
+            --build-arg API_URL=${{ steps.backend-url.outputs.url }} \
+            -f frontend/Dockerfile frontend/
+
+      - name: Push frontend image
+        run: |
+          docker push ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO }}/web:${{ github.sha }}
+
+      - name: Deploy frontend to Cloud Run
+        run: |
+          gcloud run deploy ${{ env.FRONTEND_SERVICE }} \
+            --image ${{ env.REGION }}-docker.pkg.dev/${{ env.PROJECT_ID }}/${{ env.REPO }}/web:${{ github.sha }} \
+            --region ${{ env.REGION }} \
+            --allow-unauthenticated \
+            --port 3000 \
+            --memory 512Mi \
+            --cpu 1 \
+            --min-instances 0 \
+            --max-instances 3
+
+      # ── Summary ──
+      - name: Deployment summary
+        run: |
+          FRONTEND_URL=$(gcloud run services describe ${{ env.FRONTEND_SERVICE }} \
+            --region ${{ env.REGION }} --format='value(status.url)')
+          echo "### Deployed to Cloud Run" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          echo "| Service | URL |" >> $GITHUB_STEP_SUMMARY
+          echo "|---------|-----|" >> $GITHUB_STEP_SUMMARY
+          echo "| Frontend | $FRONTEND_URL |" >> $GITHUB_STEP_SUMMARY
+          echo "| Backend | ${{ steps.backend-url.outputs.url }} |" >> $GITHUB_STEP_SUMMARY

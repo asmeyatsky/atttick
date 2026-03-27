@@ -24,7 +24,7 @@ function getCustomerId(): string {
 const WELCOME_MESSAGE: Message = {
   id: "welcome",
   content:
-    "Hey there! Thanks for reaching out to HomeRevive. I'm an AI assistant trained on our team's actual phone conversations, so I know our services, pricing, and processes inside and out. How can I help you today?",
+    "Hey there! Welcome to Attraction Tickets! I'm an AI assistant trained on our team's real conversations with customers, so I know our tickets, prices, and booking process inside and out. How can I help you today?",
   role: "assistant",
   sources: [],
   isVerified: false,

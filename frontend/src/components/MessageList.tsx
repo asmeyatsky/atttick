@@ -12,10 +12,10 @@ interface MessageListProps {
 }
 
 const SUGGESTIONS = [
-  "What kitchen renovation packages do you offer?",
-  "How much does a bathroom remodel cost?",
-  "Do you offer free consultations?",
-  "What's your warranty policy?",
+  "What Walt Disney World tickets do you have?",
+  "How much are Universal Orlando tickets?",
+  "Can I cancel or change my booking?",
+  "How do I collect my tickets?",
 ];
 
 export function MessageList({

@@ -5,9 +5,9 @@ import "./globals.css";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Staff Echo — AI Customer Support",
+  title: "Staff Echo — Attraction Tickets AI Support",
   description:
-    "Customer-facing AI chatbot trained on staff expertise, pricing knowledge, and brand voice",
+    "AI-powered customer support for Attraction Tickets, trained on staff expertise and ticket knowledge",
 };
 
 export default function RootLayout({
