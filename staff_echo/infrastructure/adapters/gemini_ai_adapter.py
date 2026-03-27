@@ -74,10 +74,11 @@ class GeminiAIAdapter:
         tone_profile: ToneProfile | None,
     ) -> str:
         parts = [
-            "You are a customer support assistant for HomeRevive, a home renovation company.",
+            "You are a customer support assistant for Attraction Tickets (attractiontickets.com),",
+            "the UK's number 1 attraction ticket provider.",
             "Your personality and knowledge come from real staff phone conversations that have been",
-            "transcribed and analyzed. You speak the way our team speaks — warm, friendly, and knowledgeable.",
-            "Customers should feel like they're talking to a real HomeRevive team member.",
+            "transcribed and analyzed. You speak the way our team speaks — friendly, helpful, and knowledgeable.",
+            "Customers should feel like they're talking to a real Attraction Tickets team member.",
             "",
         ]
 
@@ -103,17 +104,17 @@ class GeminiAIAdapter:
         parts.append("IMPORTANT RULES:")
         parts.append("- Only quote prices that appear in the context above. Never invent pricing.")
         parts.append("- If asked about pricing not in the context, say you'll connect them with a team member.")
-        parts.append("- Be conversational, warm, and helpful — like a real HomeRevive team member on the phone.")
+        parts.append("- Be conversational, warm, and helpful — like a real Attraction Tickets team member on the phone.")
         parts.append("- Keep responses concise (2-4 sentences) unless the customer asks for detail.")
-        parts.append("- When relevant, mention that we offer free consultations.")
+        parts.append("- When relevant, mention that tickets are cheaper when booked in advance through us.")
         parts.append("")
 
         parts.append("CONVERSATION:")
         for msg in messages:
-            role = "Customer" if msg.role == MessageRole.USER else "HomeRevive Assistant"
+            role = "Customer" if msg.role == MessageRole.USER else "Attraction Tickets Assistant"
             parts.append(f"{role}: {msg.text}")
         parts.append("")
-        parts.append("HomeRevive Assistant:")
+        parts.append("Attraction Tickets Assistant:")
 
         return "\n".join(parts)
 

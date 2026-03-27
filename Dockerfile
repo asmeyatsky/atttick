@@ -6,7 +6,7 @@ COPY pyproject.toml .
 COPY main.py .
 COPY staff_echo/ staff_echo/
 
-RUN pip install --no-cache-dir .
+RUN pip install --no-cache-dir ".[google]"
 
 EXPOSE 8001
 
